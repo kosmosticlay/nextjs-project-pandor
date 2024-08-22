@@ -3,8 +3,13 @@
 @tailwind utilities;
 
 @layer components {
+  .wrapper {
+    @apply w-full min-h-screen h-full flex flex-col items-center justify-center;
+  }
+
+  /* 버튼 */
   .primary-btn {
-    @apply w-full p-2 rounded-sm bg-neutral-400 font-semibold;
+    @apply flex-center w-full p-2 rounded-sm bg-neutral-400 font-semibold active:button-animation;
   }
 }
 
@@ -16,5 +21,8 @@
   /* background-image 기본 세팅 */
   .bg-image-setting {
     @apply bg-no-repeat bg-center bg-contain;
+  }
+  .button-animation {
+    @apply scale-95 transition-transform duration-300 ease-in-out;
   }
 }

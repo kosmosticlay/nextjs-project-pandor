@@ -1,0 +1,82 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         Int       @id @default(autoincrement())
+  username   String    @unique
+  email      String?   @unique
+  avatar     String?   @default("기본 아바타 이미지 url")
+  bio        String?
+  password   String?
+  phone      String?   @unique
+  github_id  String?   @unique
+  google_id  String?   @unique
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  Post       Post[]
+  Comment    Comment[]
+  Like       Like[]
+}
+
+model Post {
+  id           Int            @id @default(autoincrement())
+  title        String
+  price        Float
+  description  String
+  created_at   DateTime       @default(now())
+  updated_at   DateTime       @updatedAt
+  user         User           @relation(fields: [userId], references: [id])
+  userId       Int
+  Comment      Comment[]
+  Like         Like[]
+  ProductImage ProductImage[]
+
+  @@index([userId]) // 사용자가 작성한 Tweet 리스트 전체 검색을 위한 인덱스
+}
+
+model ProductImage {
+  id         Int      @id @default(autoincrement())
+  url        String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  post       Post     @relation(fields: [postId], references: [id])
+  postId     Int
+
+  @@index([postId]) // 특정 Post에 등록된 이미지 리스트 전체 검색을 위한 인덱스
+}
+
+model Comment {
+  id         Int      @id @default(autoincrement())
+  content    String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  user       User     @relation(fields: [userId], references: [id])
+  userId     Int
+  post       Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId     Int
+}
+
+model Like {
+  id         Int      @id @default(autoincrement())
+  created_at DateTime @default(now())
+  user       User     @relation(fields: [userId], references: [id])
+  userId     Int
+  post       Post     @relation(fields: [postId], references: [id])
+  postId     Int
+
+  @@unique([userId, postId]) // 한 사용자가 동일한 Post에 중복으로 좋아요를 누르는 것을 방지하기 위한 유니크 제약; 즉 Like 테이블에서 두 조합이 유일해야 함
+  @@index([userId]) // 사용자가 좋아요한 Tweet 리스트 전체 검색을 위한 인덱스
+  @@index([postId]) // 특정 Post에 좋아요를 누른 사용자 리스트 전체 검색을 위한 인덱스
+}

@@ -1,7 +1,9 @@
+import Image from "next/image";
+
 interface SocialLoginButtonProps {
   buttonName: string;
   className?: string;
-  imageSrc?: string;
+  imageSrc: string;
 }
 
 export default function SocialLoginButton({
@@ -11,11 +13,11 @@ export default function SocialLoginButton({
 }: SocialLoginButtonProps) {
   return (
     <button
-      className={`${className} size-11 rounded-full bg-white border bg-image-setting flex-center`}
+      className={`${className} size-11 rounded-full bg-white border bg-image-setting flex-center active:button-animation`}
       aria-label={buttonName}
       title={buttonName}
     >
-      <img src={imageSrc} alt={buttonName} className="size-6" />
+      <Image src={imageSrc} alt={buttonName} width="40" height="40" />
     </button>
   );
 }
