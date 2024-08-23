@@ -29,9 +29,46 @@ export async function getUserByUsername(username: string) {
         username,
       },
     });
-    console.log("here", user);
     if (user) {
       return user;
+    }
+  }
+}
+
+export async function getUserById(id: number) {
+  if (id) {
+    const user = await db.user.findUnique({
+      where: {
+        id,
+      },
+    });
+    if (user) {
+      return user;
+    }
+  }
+}
+
+export async function getPost(id: number) {
+  if (id) {
+    const post = await db.post.findUnique({
+      where: {
+        id,
+      },
+      select: {
+        id: true,
+        title: true,
+        price: true,
+        description: true,
+        user: {
+          select: {
+            id: true,
+            username: true,
+          },
+        },
+      },
+    });
+    if (post) {
+      return post;
     }
   }
 }

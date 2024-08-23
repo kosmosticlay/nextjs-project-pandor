@@ -10,7 +10,6 @@ interface FormButtonProps {
 
 export default function FormButton({ children, className }: FormButtonProps) {
   const { pending } = useFormStatus();
-  console.log("pending", pending);
   return (
     <button disabled={pending} className={`${className} primary-btn`}>
       {pending ? <Spinner /> : children}

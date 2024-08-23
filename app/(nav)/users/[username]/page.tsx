@@ -27,7 +27,7 @@ export default async function Profile({
       <h1>{user.username}의 프로필</h1>
       <p>{user.email}</p>
       {loggedInUser.id === user.id && (
-        <Link href={`/users/${username}/edit`}>프로필 수정</Link>
+        <Link href={`/users/${username}/edit`}>프로필 수정 버튼</Link>
       )}
     </div>
   );

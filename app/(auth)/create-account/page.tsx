@@ -9,7 +9,7 @@ export default function CreateAccount() {
   const [state, dispatch] = useFormState(createAccount, null);
   console.log(state);
   return (
-    <div className="wrapper text-white">
+    <div className="w-full min-h-screen h-full flex flex-col items-center justify-center text-white">
       <h1 className="text-3xl font-semibold mb-5">회원가입</h1>
       <form action={dispatch} className="w-[300px]">
         <FormInput

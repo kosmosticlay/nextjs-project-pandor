@@ -1,27 +1,20 @@
-export interface FormInputProps {
-  name: string;
-  type: string;
-  placeholder: string;
-  required: boolean;
-  errors?: string[];
-}
+import { FormInputProps } from "./input";
 
-export default function FormInput({
+export default function PostInput({
   name,
   type,
-  placeholder,
   required,
+  placeholder,
   errors,
 }: FormInputProps) {
   return (
-    <div className="mb-2 w-full flex flex-col gap-1">
+    <div>
       <input
-        className="p-2 text-black rounded-sm"
         name={name}
+        type={type}
         required={required}
         aria-label={placeholder}
-        type={type}
-        placeholder={placeholder}
+        className="w-full h-10 p-2 bg-transparent border border-gray-300 rounded-sm"
       ></input>
       {errors?.map((error, index) => (
         <span key={index} className="text-red-500 text-sm font-light">

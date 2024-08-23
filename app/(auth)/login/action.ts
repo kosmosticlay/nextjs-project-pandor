@@ -4,6 +4,7 @@ import bcrypt from "bcrypt";
 import db from "@/lib/db";
 import { z } from "zod";
 import getSession from "@/lib/session";
+import { redirect } from "next/navigation";
 
 const checkUserExists = async (username: string) => {
   const user = await db.user.findUnique({
@@ -57,7 +58,7 @@ export async function login(prevState: any, formData: FormData) {
       session.id = user!.id;
 
       await session.save();
-      // redirect("/profile");
+      redirect("/");
     } else {
       return {
         fieldErrors: {
