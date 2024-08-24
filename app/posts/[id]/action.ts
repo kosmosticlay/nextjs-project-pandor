@@ -2,6 +2,7 @@
 
 import { getLoggedInUser } from "@/app/(auth)/action";
 import db from "@/lib/db";
+import { revalidatePath } from "next/cache";
 import { notFound } from "next/navigation";
 import { z } from "zod";
 
@@ -28,7 +29,7 @@ export async function createComment(formData: FormData) {
     console.log(result.error.flatten());
     return result.error.flatten();
   } else {
-    return await db.comment.create({
+    await db.comment.create({
       data: {
         content: result.data.comment,
         post: {
@@ -43,11 +44,13 @@ export async function createComment(formData: FormData) {
         },
       },
     });
+
+    // 댓글이 속한 게시물의 경로를 재유효화합니다.
+    revalidatePath(`/post/${data.postId}`);
   }
 }
 
 /* 댓글 수정 */
-
 const editCommentSchema = z.object({
   commentId: z.number(),
   comment: z.string(),
@@ -78,17 +81,20 @@ export async function editComment(formData: FormData) {
       return notFound();
     }
 
-    return await db.comment.update({
+    // 댓글 업데이트
+    await db.comment.update({
       where: { id: result.data.commentId },
       data: {
         content: result.data.comment,
       },
     });
+
+    const postId = existingComment.postId;
+    revalidatePath(`/post/${postId}`);
   }
 }
 
 /* 댓글 삭제 */
-
 const deleteCommentSchema = z.object({
   commentId: z.number(),
 });
@@ -117,8 +123,11 @@ export async function deleteComment(formData: FormData) {
       return notFound();
     }
 
-    return await db.comment.delete({
+    await db.comment.delete({
       where: { id: result.data.commentId },
     });
+
+    const postId = existingComment.postId;
+    revalidatePath(`/post/${postId}`);
   }
 }
