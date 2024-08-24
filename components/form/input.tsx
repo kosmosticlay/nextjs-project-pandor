@@ -3,6 +3,7 @@ export interface FormInputProps {
   type: string;
   placeholder: string;
   required: boolean;
+  defaultValue?: string;
   errors?: string[];
 }
 
@@ -11,6 +12,7 @@ export default function FormInput({
   type,
   placeholder,
   required,
+  defaultValue,
   errors,
 }: FormInputProps) {
   return (
@@ -22,6 +24,7 @@ export default function FormInput({
         aria-label={placeholder}
         type={type}
         placeholder={placeholder}
+        defaultValue={defaultValue}
       ></input>
       {errors?.map((error, index) => (
         <span key={index} className="text-red-500 text-sm font-light">

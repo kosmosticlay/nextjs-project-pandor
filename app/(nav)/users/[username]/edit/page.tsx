@@ -1,5 +1,6 @@
 import { getLoggedInUser, getUserByUsername } from "@/app/(auth)/action";
 import { notFound, redirect } from "next/navigation";
+import EditProfileForm from "./edit-profile-form";
 
 export default async function EditProfile({
   params,
@@ -26,5 +27,10 @@ export default async function EditProfile({
     return redirect(`/users/${username}`);
   }
 
-  return <h1>{username}의 프로필 수정페이지</h1>;
+  return (
+    <div className="wrapper bg-blue-900">
+      <h1 className="h1">{username}의 프로필 수정페이지</h1>
+      <EditProfileForm profileUser={profileUser} />
+    </div>
+  );
 }
