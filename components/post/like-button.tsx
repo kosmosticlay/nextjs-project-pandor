@@ -2,19 +2,19 @@
 
 import { HeartIcon } from "@heroicons/react/24/solid";
 import { HeartIcon as OutlineHeartIcon } from "@heroicons/react/24/outline";
-import { useOptimistic, useState } from "react";
-import { dislikePost, likePost } from "@/app/tweets/[id]/action";
+import { useOptimistic, useState, useTransition } from "react";
+import { dislikePost, likePost } from "@/app/posts/[id]/action";
 
 interface LikeButtonProps {
   isLiked: boolean;
   likeCount: number;
-  tweetId: number;
+  postId: number;
 }
 
 export default function LikeButton({
   isLiked: initialIsLiked,
   likeCount: initialLikeCount,
-  tweetId,
+  postId,
 }: LikeButtonProps) {
   const [actualState, setActualState] = useState({
     isLiked: initialIsLiked,
@@ -29,31 +29,40 @@ export default function LikeButton({
     })
   );
 
-  const onClick = async () => {
-    const action = actualState.isLiked ? "dislike" : "like";
-    updateOptimisticState(action);
+  const [isPending, startTransition] = useTransition();
 
-    try {
-      if (action === "dislike") {
-        await dislikePost(tweetId);
-      } else {
-        await likePost(tweetId);
+  const onClick = () => {
+    startTransition(async () => {
+      const action = actualState.isLiked ? "dislike" : "like";
+      updateOptimisticState(action);
+
+      try {
+        if (action === "dislike") {
+          await dislikePost(postId);
+        } else {
+          await likePost(postId);
+        }
+
+        setActualState((prevState) => ({
+          isLiked: !prevState.isLiked,
+          likeCount:
+            action === "like"
+              ? prevState.likeCount + 1
+              : prevState.likeCount - 1,
+        }));
+      } catch (error) {
+        console.error("Error updating like status:", error);
+        updateOptimisticState(actualState.isLiked ? "like" : "dislike");
       }
-
-      // 실제 상태 업데이트
-      setActualState((prevState) => ({
-        isLiked: !prevState.isLiked,
-        likeCount:
-          action === "like" ? prevState.likeCount + 1 : prevState.likeCount - 1,
-      }));
-    } catch (error) {
-      console.error("Error updating like status:", error);
-      updateOptimisticState(actualState.isLiked ? "like" : "dislike");
-    }
+    });
   };
 
   return (
-    <button onClick={onClick} className="flex items-center p-2">
+    <button
+      onClick={onClick}
+      className="flex items-center p-2"
+      disabled={isPending}
+    >
       {optimisticState.isLiked ? (
         <HeartIcon className="size-5 text-red-800" />
       ) : (

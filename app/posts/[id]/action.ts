@@ -2,7 +2,8 @@
 
 import { getLoggedInUser } from "@/app/(auth)/action";
 import db from "@/lib/db";
-import { revalidatePath } from "next/cache";
+import getSession from "@/lib/session";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { notFound } from "next/navigation";
 import { z } from "zod";
 
@@ -130,4 +131,34 @@ export async function deleteComment(formData: FormData) {
     const postId = existingComment.postId;
     revalidatePath(`/post/${postId}`);
   }
+}
+
+/* 게시물 좋아요 */
+export async function likePost(postId: number) {
+  const session = await getSession();
+  try {
+    await db.like.create({
+      data: {
+        postId,
+        userId: session.id!,
+      },
+    });
+    revalidateTag(`like-status-${postId}`);
+  } catch (e) {}
+}
+
+/* 게시물 좋아요 취소 */
+export async function dislikePost(postId: number) {
+  const session = await getSession();
+  try {
+    await db.like.delete({
+      where: {
+        userId_postId: {
+          userId: session.id!,
+          postId: postId,
+        },
+      },
+    });
+    revalidateTag(`like-status-${postId}`);
+  } catch (e) {}
 }

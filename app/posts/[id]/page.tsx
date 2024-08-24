@@ -6,6 +6,7 @@ import { createComment } from "./action";
 import FormInput from "@/components/form/input";
 import FormButton from "@/components/form/button";
 import CommentItem from "@/components/comment/comment-item";
+import LikeButton from "@/components/post/like-button";
 
 export default async function PostPage({ params }: { params: { id: string } }) {
   const { id } = params;
@@ -25,6 +26,8 @@ export default async function PostPage({ params }: { params: { id: string } }) {
 
   const prevComments = await getComments(Number(id));
   console.log(prevComments);
+
+  const isLiked = post.likes.some((like) => like.user.id === user.id);
 
   return (
     <div className="wrapper min-h-screen bg-orange-950">
@@ -46,6 +49,11 @@ export default async function PostPage({ params }: { params: { id: string } }) {
           <span>{post.price}</span>
           <p>{post.description}</p>
           <p>{post.likes.length}likes</p>
+          <LikeButton
+            isLiked={isLiked}
+            postId={post.id}
+            likeCount={post.likes.length}
+          />
           <p>{post.comments.length}comments</p>
           <form action={createComment} className="mt-5 flex items-center gap-2">
             <div className="w-10 h-10 rounded-full bg-black flex-shrink-0"></div>
