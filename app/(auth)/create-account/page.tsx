@@ -18,6 +18,7 @@ export default function CreateAccount() {
           placeholder="username"
           required
           errors={state?.fieldErrors.username}
+          classname="mb-2"
         />
         <FormInput
           name="email"
@@ -25,6 +26,7 @@ export default function CreateAccount() {
           placeholder="email"
           required
           errors={state?.fieldErrors.email}
+          classname="mb-2"
         />
         <FormInput
           name="password"
@@ -32,6 +34,7 @@ export default function CreateAccount() {
           placeholder="password"
           required
           errors={state?.fieldErrors.password}
+          classname="mb-2"
         />
         <FormInput
           name="confirm_password"
@@ -39,6 +42,7 @@ export default function CreateAccount() {
           placeholder="confirm_password"
           required
           errors={state?.fieldErrors.confirm_password}
+          classname="mb-2"
         />
         <FormButton className="mt-5">계정 생성하기</FormButton>
       </form>

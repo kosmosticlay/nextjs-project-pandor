@@ -5,6 +5,7 @@ export interface FormInputProps {
   required: boolean;
   defaultValue?: string;
   errors?: string[];
+  classname?: string;
 }
 
 export default function FormInput({
@@ -14,9 +15,10 @@ export default function FormInput({
   required,
   defaultValue,
   errors,
+  classname,
 }: FormInputProps) {
   return (
-    <div className="mb-2 w-full flex flex-col gap-1">
+    <div className={`w-full flex flex-col gap-1 ${classname}`}>
       <input
         className="p-2 text-black rounded-sm"
         name={name}

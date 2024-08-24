@@ -4,6 +4,7 @@ import { getAllPosts, getNextPosts } from "@/app/(nav)/(home)/action";
 import { Prisma } from "@prisma/client";
 import { useState } from "react";
 import PostItem from "./post-item";
+import Link from "next/link";
 
 export type InitialPostsProps = Prisma.PromiseReturnType<typeof getAllPosts>;
 
@@ -27,16 +28,18 @@ export default function PostContainer({
     <div className="min-h-screen flex flex-col items-center bg-blue-400">
       <div className="w-full md:grid md:grid-cols-2 gap-2 lg:grid-cols-3">
         {posts.map((post) => (
-          <PostItem
-            key={post.id}
-            id={post.id}
-            title={post.title}
-            price={post.price}
-            created_at={post.created_at}
-            user={post.user}
-            comments={post._count.comments}
-            likes={post._count.likes}
-          />
+          <Link key={post.id} href={`/posts/${post.id}`}>
+            <PostItem
+              key={post.id}
+              id={post.id}
+              title={post.title}
+              price={post.price}
+              created_at={post.created_at}
+              user={post.user}
+              comments={post._count.comments}
+              likes={post._count.likes}
+            />
+          </Link>
         ))}
       </div>
       <button

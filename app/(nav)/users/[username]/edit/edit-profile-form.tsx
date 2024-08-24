@@ -31,6 +31,7 @@ export default function EditProfileForm({
         required
         defaultValue={profileUser.username}
         errors={state?.fieldErrors.username}
+        classname="mb-2"
       />
       <FormInput
         name="email"
@@ -39,6 +40,7 @@ export default function EditProfileForm({
         required
         defaultValue={profileUser.email || ""}
         errors={state?.fieldErrors.email}
+        classname="mb-2"
       />
       <FormInput
         name="bio"
@@ -47,6 +49,7 @@ export default function EditProfileForm({
         required
         defaultValue={profileUser.bio || ""}
         errors={state?.fieldErrors.bio}
+        classname="mb-2"
       />
       <FormInput
         name="password"
@@ -54,6 +57,7 @@ export default function EditProfileForm({
         placeholder="password"
         required={false}
         errors={state?.fieldErrors.password}
+        classname="mb-2"
       />
       <FormInput
         name="confirm_password"
@@ -61,6 +65,7 @@ export default function EditProfileForm({
         placeholder="confirm_password"
         required={false}
         errors={state?.fieldErrors.confirm_password}
+        classname="mb-2"
       />
       <FormButton>프로필 수정하기</FormButton>
     </form>

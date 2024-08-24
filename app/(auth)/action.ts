@@ -59,16 +59,73 @@ export async function getPost(id: number) {
         title: true,
         price: true,
         description: true,
+        created_at: true,
         user: {
           select: {
             id: true,
             username: true,
           },
         },
+        likes: {
+          select: {
+            id: true,
+            user: {
+              select: {
+                id: true,
+              },
+            },
+          },
+        },
+        comments: {
+          select: {
+            id: true,
+            content: true,
+            user: {
+              select: {
+                id: true,
+                username: true,
+              },
+            },
+          },
+        },
       },
     });
     if (post) {
       return post;
+    }
+  }
+}
+
+export async function getComments(postId: number) {
+  if (postId) {
+    const comments = await db.comment.findMany({
+      where: {
+        postId,
+      },
+      select: {
+        id: true,
+        content: true,
+        created_at: true,
+        user: {
+          select: {
+            id: true,
+            username: true,
+            email: true,
+          },
+        },
+        post: {
+          select: {
+            id: true,
+            userId: true,
+          },
+        },
+      },
+      orderBy: {
+        created_at: "desc",
+      },
+    });
+    if (comments) {
+      return comments;
     }
   }
 }

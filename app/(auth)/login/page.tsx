@@ -26,6 +26,7 @@ export default function Login() {
               placeholder="Username"
               required
               errors={state?.fieldErrors.username}
+              classname="mb-2"
             />
             <FormInput
               name="password"
@@ -33,6 +34,7 @@ export default function Login() {
               placeholder="Password"
               required
               errors={state?.fieldErrors.password}
+              classname="mb-2"
             />
             <FormButton className="mt-2">로그인</FormButton>
           </form>
