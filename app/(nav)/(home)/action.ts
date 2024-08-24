@@ -1,3 +1,5 @@
+"use server";
+
 import db from "@/lib/db";
 
 export async function getAllPosts() {
@@ -51,7 +53,7 @@ export async function getNextPosts(page: number) {
       },
     },
     take: 6,
-    skip: page * 1,
+    skip: page * 6,
     orderBy: {
       created_at: "desc",
     },

@@ -25,7 +25,6 @@ export default async function PostPage({ params }: { params: { id: string } }) {
   }
 
   const prevComments = await getComments(Number(id));
-  console.log(prevComments);
 
   const isLiked = post.likes.some((like) => like.user.id === user.id);
 

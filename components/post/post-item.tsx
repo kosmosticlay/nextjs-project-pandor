@@ -23,7 +23,6 @@ export default function PostItem({
   likes,
 }: PostItemProps) {
   const formattedDate = formatToTimeAgo(created_at.toString());
-  console.log(created_at, user, comments, likes);
 
   return (
     <div className="flex h-[200px] p-2 bg-neutral-400">
