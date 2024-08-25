@@ -5,6 +5,7 @@ import { Prisma } from "@prisma/client";
 import { useCallback, useState, useTransition } from "react";
 import PostItem from "./post-item";
 import Link from "next/link";
+import Spinner from "../form/loader-spinner";
 
 export type InitialPostsProps = Prisma.PromiseReturnType<typeof getAllPosts>;
 
@@ -56,15 +57,15 @@ export default function PostContainer({
       </div>
       {hasMorePosts ? (
         <button
-          className="w-36 h-12 rounded-md bg-rose-400 mt-5 mb-28 font-bold"
+          className="w-36 h-12 rounded-md bg-rose-400 mt-5 mb-28 font-bold flex-center button-animation"
           onClick={handleNextPosts}
           disabled={isPending}
         >
-          {isPending ? "로딩중.." : "더보기"}
+          {isPending ? <Spinner /> : "더보기"}
         </button>
       ) : (
         <div className="mt-5 mb-28 text-lg font-bold text-rose-400">
-          No more Posts
+          더 이상 글이 없습니다.
         </div>
       )}
     </div>

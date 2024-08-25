@@ -14,7 +14,7 @@
 
   /* 버튼 */
   .primary-btn {
-    @apply flex-center w-full p-2 rounded-sm bg-neutral-400 font-semibold active:button-animation;
+    @apply flex-center w-full h-12 p-2 rounded-md text-stone-800 bg-rose-400 font-semibold active:button-animation;
   }
 
   /* 로딩 텍스트 */

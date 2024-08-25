@@ -10,45 +10,46 @@ export default function CreatePost() {
   const [state, dispatch] = useFormState(createPost, null);
 
   return (
-    <div className="wrapper bg-blue-900">
+    <div className="wrapper">
       <h1 className="h1">새 글 작성하기</h1>
-      <form action={dispatch} className="w-[500px] content-height ">
+      <form action={dispatch} className="w-[500px] content-height mt-5">
         <div className="  bg-pink-950 flex justify-center">
           <div className="w-[300px] h-[300px] bg-black">등록 공간</div>
         </div>
         <div className=" flex flex-col mt-3 ">
           <ul>
-            <li className="mb-2">
-              <label className="block  bg-black" htmlFor="title">
+            <li className="mb-3 text-lg">
+              <label className="block font-semibold" htmlFor="title">
                 제목
               </label>
               <PostInput
                 name="title"
                 type="text"
-                placeholder="제목을 입력하세요"
+                placeholder="제목을 입력하세요."
                 required
                 errors={state?.fieldErrors.title}
               />
             </li>
-            <li className="mb-2">
-              <label className="block  bg-black" htmlFor="price">
+            <li className="mb-3 text-lg">
+              <label className="block font-semibold" htmlFor="price">
                 가격
               </label>
               <PostInput
                 name="price"
                 type="number"
-                placeholder="가격을 입력하세요"
+                placeholder="가격을 입력하세요."
                 required
                 errors={state?.fieldErrors.price}
               />
             </li>
-            <li className="mb-2">
-              <label className="block  bg-black" htmlFor="description">
+            <li className="mb-3 text-lg">
+              <label className="block font-semibold" htmlFor="description">
                 내용
               </label>
               <PostTextarea
                 name="description"
                 errors={state?.fieldErrors.description}
+                placeholder="내용은 10자 이상 입력해주세요."
               />
             </li>
           </ul>

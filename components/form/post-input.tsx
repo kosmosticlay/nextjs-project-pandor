@@ -13,8 +13,9 @@ export default function PostInput({
         name={name}
         type={type}
         required={required}
+        placeholder={placeholder}
         aria-label={placeholder}
-        className="w-full h-10 p-2 bg-transparent border border-gray-300 rounded-sm"
+        className="w-full h-10 mt-2 p-2 bg-transparent border border-stone-300 rounded-md focus:border-rose-400 focus:outline-none"
       ></input>
       {errors?.map((error, index) => (
         <span key={index} className="text-red-500 text-sm font-light">
