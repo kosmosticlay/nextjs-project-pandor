@@ -51,6 +51,7 @@ export default function PostContainer({
               user={post.user}
               comments={post._count.comments}
               likes={post._count.likes}
+              photo={post.photo!}
             />
           </Link>
         ))}

@@ -4,7 +4,7 @@ import { getAllPosts } from "./action";
 
 export default async function Home() {
   const initialPosts = await getAllPosts();
-  //console.log(initialPosts);
+
   return (
     <div className="">
       <Suspense fallback={<div className="loading-text">로딩 중...</div>}>

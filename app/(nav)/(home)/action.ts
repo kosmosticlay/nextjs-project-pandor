@@ -10,6 +10,7 @@ export async function getAllPosts() {
       price: true,
       description: true,
       created_at: true,
+      photo: true,
       user: {
         select: {
           id: true,
@@ -39,6 +40,7 @@ export async function getNextPosts(page: number) {
       price: true,
       description: true,
       created_at: true,
+      photo: true,
       user: {
         select: {
           id: true,

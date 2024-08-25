@@ -28,7 +28,7 @@ export default async function EditProfile({
   }
 
   return (
-    <div className="wrapper bg-blue-900">
+    <div className="wrapper">
       <h1 className="h1">{username}의 프로필 수정페이지</h1>
       <EditProfileForm profileUser={profileUser} />
     </div>

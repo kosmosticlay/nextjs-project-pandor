@@ -4,6 +4,7 @@ import { z } from "zod";
 import bcrypt from "bcrypt";
 import db from "@/lib/db";
 import getSession from "@/lib/session";
+import { redirect } from "next/navigation";
 
 const checkPasswords = ({
   password,
@@ -102,5 +103,7 @@ export async function createAccount(prevState: any, formData: FormData) {
     session.id = user.id;
     session.username = user.username;
     await session.save();
+
+    redirect("/");
   }
 }

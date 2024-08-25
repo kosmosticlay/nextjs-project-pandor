@@ -1,3 +1,5 @@
+"use server";
+
 import db from "@/lib/db";
 import getSession from "@/lib/session";
 import { redirect } from "next/navigation";
@@ -60,6 +62,7 @@ export async function getPost(id: number) {
         price: true,
         description: true,
         created_at: true,
+        photo: true,
         user: {
           select: {
             id: true,
@@ -96,6 +99,64 @@ export async function getPost(id: number) {
   }
 }
 
+export async function getPostsByUser(userId: number) {
+  if (userId) {
+    const posts = await db.post.findMany({
+      where: {
+        userId,
+      },
+      select: {
+        id: true,
+        title: true,
+        price: true,
+        description: true,
+        created_at: true,
+        photo: true,
+        user: {
+          select: {
+            id: true,
+            username: true,
+          },
+        },
+        _count: {
+          select: {
+            comments: true,
+            likes: true,
+          },
+        },
+        likes: {
+          select: {
+            id: true,
+            user: {
+              select: {
+                id: true,
+              },
+            },
+          },
+        },
+        comments: {
+          select: {
+            id: true,
+            content: true,
+            user: {
+              select: {
+                id: true,
+                username: true,
+              },
+            },
+          },
+        },
+      },
+      orderBy: {
+        created_at: "desc",
+      },
+    });
+    if (posts) {
+      return posts;
+    }
+  }
+}
+
 export async function getComments(postId: number) {
   if (postId) {
     const comments = await db.comment.findMany({
@@ -106,11 +167,13 @@ export async function getComments(postId: number) {
         id: true,
         content: true,
         created_at: true,
+
         user: {
           select: {
             id: true,
             username: true,
             email: true,
+            avatar: true,
           },
         },
         post: {

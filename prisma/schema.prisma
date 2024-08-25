@@ -17,7 +17,7 @@ model User {
   id         Int       @id @default(autoincrement())
   username   String    @unique
   email      String?   @unique
-  avatar     String?   @default("기본 아바타 이미지 url")
+  avatar     String?   @default("/default-avatar.png")
   bio        String?
   password   String?
   phone      String?   @unique
@@ -31,30 +31,19 @@ model User {
 }
 
 model Post {
-  id            Int            @id @default(autoincrement())
-  title         String
-  price         Float
-  description   String
-  created_at    DateTime       @default(now())
-  updated_at    DateTime       @updatedAt
-  user          User           @relation(fields: [userId], references: [id])
-  userId        Int
-  comments      Comment[]
-  likes         Like[]
-  productImages ProductImage[]
+  id          Int       @id @default(autoincrement())
+  title       String
+  price       Float
+  description String
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @updatedAt
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      Int
+  comments    Comment[]
+  likes       Like[]
+  photo       String?   @default("/No-Image-Placeholder.png")
 
   @@index([userId]) // 사용자가 작성한 Tweet 리스트 전체 검색을 위한 인덱스
-}
-
-model ProductImage {
-  id         Int      @id @default(autoincrement())
-  url        String
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
-  post       Post     @relation(fields: [postId], references: [id])
-  postId     Int
-
-  @@index([postId]) // 특정 Post에 등록된 이미지 리스트 전체 검색을 위한 인덱스
 }
 
 model Comment {
@@ -73,7 +62,7 @@ model Like {
   created_at DateTime @default(now())
   user       User     @relation(fields: [userId], references: [id])
   userId     Int
-  post       Post     @relation(fields: [postId], references: [id])
+  post       Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId     Int
 
   @@unique([userId, postId]) // 한 사용자가 동일한 Post에 중복으로 좋아요를 누르는 것을 방지하기 위한 유니크 제약; 즉 Like 테이블에서 두 조합이 유일해야 함

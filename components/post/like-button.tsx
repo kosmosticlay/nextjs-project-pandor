@@ -58,15 +58,11 @@ export default function LikeButton({
   };
 
   return (
-    <button
-      onClick={onClick}
-      className="flex items-center p-2"
-      disabled={isPending}
-    >
+    <button onClick={onClick} className="ml-2 pt-1" disabled={isPending}>
       {optimisticState.isLiked ? (
-        <HeartIcon className="size-5 text-red-800" />
+        <HeartIcon className="size-6 text-rose-400" />
       ) : (
-        <OutlineHeartIcon className="size-5 text-stone-500" />
+        <OutlineHeartIcon className="size-6 text-stone-500" />
       )}
     </button>
   );

@@ -7,6 +7,8 @@ import FormInput from "@/components/form/input";
 import FormButton from "@/components/form/button";
 import CommentItem from "@/components/comment/comment-item";
 import LikeButton from "@/components/post/like-button";
+import { ArrowLeftIcon } from "@heroicons/react/24/outline";
+import Image from "next/image";
 
 export default async function PostPage({ params }: { params: { id: string } }) {
   const { id } = params;
@@ -29,33 +31,69 @@ export default async function PostPage({ params }: { params: { id: string } }) {
   const isLiked = post.likes.some((like) => like.user.id === user.id);
 
   return (
-    <div className="wrapper min-h-screen bg-orange-950">
-      <header className="w-full h-16">
-        <Link href="/"> ← Home</Link>
+    <div className="wrapper min-h-screen">
+      <header className="w-full h-16 flex items-center">
+        <Link
+          className="flex items-center font-semibold  hover:text-rose-400"
+          href="/"
+        >
+          <ArrowLeftIcon className="h-4 w-4 mr-2" />
+          <span className="text-lg">Home</span>
+        </Link>
       </header>
-      <div className="w-full lg:flex bg-slate-600">
-        <div className="w-full h-[400px] lg:w-1/2 h-content bg-black">
-          그림 이미지 들어갈 곳
+      <div className="w-full lg:flex justify-center mt-5">
+        <div className="w-full lg:w-1/3 lg:mr-5 flex justify-center mb-5">
+          <div className="min-w-[300px] h-content lg:w-1/2 relative aspect-square flex-center size-80">
+            <Image
+              className="object-cover"
+              fill
+              src={`${post.photo}`}
+              alt={post.title}
+            />
+          </div>
         </div>
         <div className="min-w-[400px] lg:w-1/2 flex flex-col">
-          <h1 className="h1">{post.title}</h1>
-          <span>
-            <Link href={`/users/${post.user.username}`}>
-              {post.user.username}
-            </Link>
+          <div className="flex justify-between items-end">
+            <h1 className="h1 pr-5">{post.title}</h1>
+            <div className="flex items-center flex-shrink-0 pb-4">
+              <p>좋아요 {post.likes.length}개</p>
+              <LikeButton
+                isLiked={isLiked}
+                postId={post.id}
+                likeCount={post.likes.length}
+              />
+            </div>
+          </div>
+          <span className="font-semibold text-lg">
+            {post.price.toLocaleString("KR")}원
           </span>
-          <span>{formatToTimeAgo(post.created_at.toString())}</span>
-          <span>{post.price}</span>
-          <p>{post.description}</p>
-          <p>{post.likes.length}likes</p>
-          <LikeButton
-            isLiked={isLiked}
-            postId={post.id}
-            likeCount={post.likes.length}
-          />
-          <p>{post.comments.length}comments</p>
+          <div className="my-3">
+            <span>
+              <Link
+                className="font-bold hover:text-rose-400"
+                href={`/users/${post.user.username}`}
+              >
+                @{post.user.username}
+              </Link>
+            </span>
+            <span className="ml-2 text-sm text-stone-400">
+              {formatToTimeAgo(post.created_at.toString())}
+            </span>
+          </div>
+          <p className="mb-5">{post.description}</p>
+          <p className="text-lg font-semibold pt-5 border-t-[1px] border-stone-400">
+            댓글 {post.comments.length}개
+          </p>
           <form action={createComment} className="mt-5 flex items-center gap-2">
-            <div className="w-10 h-10 rounded-full bg-black flex-shrink-0"></div>
+            <div className="relative flex-center w-10 h-10 rounded-full bg-black flex-shrink-0 overflow-hidden">
+              <Image
+                src={user.avatar || "/default-avatar.png"}
+                alt="avatar"
+                fill
+                sizes="40px"
+                className="object-cover"
+              />
+            </div>
             <input type="hidden" name="postId" value={id} />
             <FormInput
               type="text"
@@ -65,7 +103,7 @@ export default async function PostPage({ params }: { params: { id: string } }) {
             />
             <FormButton className="w-14 flex-shrink-0">입력</FormButton>
           </form>
-          <div className="w-full bg-green-800 mt-5">
+          <div className="mt-5">
             {prevComments?.map((comment) => (
               <CommentItem
                 key={comment.id}
@@ -75,6 +113,7 @@ export default async function PostPage({ params }: { params: { id: string } }) {
                 username={comment.user.username}
                 content={comment.content}
                 created_at={formatToTimeAgo(comment.created_at.toString())}
+                avatar={comment.user.avatar!}
               />
             ))}
           </div>

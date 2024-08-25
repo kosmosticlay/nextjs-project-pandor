@@ -55,7 +55,6 @@ export async function searchPosts(formData: FormData) {
             },
           },
         },
-        take: 6,
         orderBy: {
           created_at: "desc",
         },

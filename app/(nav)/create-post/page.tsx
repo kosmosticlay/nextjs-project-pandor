@@ -5,8 +5,25 @@ import PostInput from "@/components/form/post-input";
 import PostTextarea from "@/components/form/post-textarea";
 import { useFormState } from "react-dom";
 import { createPost } from "./action";
+import { useState } from "react";
+import { PhotoIcon } from "@heroicons/react/24/outline";
 
 export default function CreatePost() {
+  const [preview, setPreview] = useState("");
+
+  const onImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { files },
+    } = event;
+    if (!files) {
+      return;
+    }
+    const file = files[0];
+    const url = URL.createObjectURL(file);
+    console.log(url);
+    setPreview(url);
+  };
+
   const [state, dispatch] = useFormState(createPost, null);
 
   return (
@@ -14,7 +31,33 @@ export default function CreatePost() {
       <h1 className="h1">새 글 작성하기</h1>
       <form action={dispatch} className="w-[500px] content-height mt-5">
         <div className="  bg-pink-950 flex justify-center">
-          <div className="w-[300px] h-[300px] bg-black">등록 공간</div>
+          <div className="w-[300px] h-[300px] bg-black">
+            <label
+              htmlFor="photo"
+              className="border-2 aspect-square flex items-center justify-center flex-col text-neutral-300 border-neutral-300 rounded-md border-dashed cursor-pointer bg-center bg-cover"
+              style={{
+                backgroundImage: `url(${preview})`,
+              }}
+            >
+              {preview === "" ? (
+                <>
+                  <PhotoIcon className="w-20" />
+                  <div className="text-neutral-400 text-sm">
+                    사진을 추가해주세요.
+                    {state?.fieldErrors.photo}
+                  </div>
+                </>
+              ) : null}
+            </label>
+            <input
+              onChange={onImageChange}
+              type="file"
+              id="photo"
+              name="photo"
+              accept="image/*"
+              className="hidden"
+            />
+          </div>
         </div>
         <div className=" flex flex-col mt-3 ">
           <ul>

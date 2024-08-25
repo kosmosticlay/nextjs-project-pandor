@@ -15,6 +15,7 @@ interface PostItemProps {
   };
   comments: number;
   likes: number;
+  photo: string | undefined;
 }
 
 export default function PostItem({
@@ -25,6 +26,7 @@ export default function PostItem({
   user,
   comments,
   likes,
+  photo,
 }: PostItemProps) {
   const formattedDate = formatToTimeAgo(created_at.toString());
   const truncatedTitle = truncateString(title, 16);
@@ -32,7 +34,13 @@ export default function PostItem({
   return (
     <div className="flex-shrink-0 active:button-animation p-1 bg-stone-800 rounded-md border-2 border-transparent hover:border-rose-400 box-border transition-all duration-100">
       <div className="rounded-md p-2  bg-rose-50 flex h-[180px]">
-        <div className="w-[180px] h-full mr-2 bg-black"></div>
+        <div className="w-[180px] h-full mr-2 bg-black rounded-md ">
+          <img
+            src={photo}
+            alt={title}
+            className="object-cover w-full h-full rounded-md"
+          />
+        </div>
         <div className="flex-1 flex flex-col justify-between">
           <div>
             <span className="font-semibold text-lg">{truncatedTitle}</span>

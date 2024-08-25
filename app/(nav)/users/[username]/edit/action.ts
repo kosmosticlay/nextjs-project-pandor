@@ -5,14 +5,7 @@ import db from "@/lib/db";
 import getSession from "@/lib/session";
 import { z } from "zod";
 import { redirect } from "next/navigation";
-
-const checkPasswords = ({
-  password,
-  confirm_password,
-}: {
-  password?: string;
-  confirm_password?: string;
-}) => password === confirm_password;
+import fs from "fs/promises";
 
 const editAccountSchema = z
   .object({
@@ -30,6 +23,7 @@ const editAccountSchema = z
       .string()
       .min(10, "비밀번호는 최소 10자 이상 입력하세요.")
       .optional(),
+    avatar: z.any().optional(),
   })
   .superRefine(async ({ username, email }, ctx) => {
     const session = await getSession();
@@ -52,7 +46,7 @@ const editAccountSchema = z
       return z.NEVER;
     }
   })
-  .refine(checkPasswords, {
+  .refine(({ password, confirm_password }) => password === confirm_password, {
     message: "비밀번호가 일치하지 않습니다.",
     path: ["confirm_password"],
   });
@@ -63,12 +57,23 @@ export async function editProfile(prevState: any, formData: FormData) {
     throw new Error("세션이 존재하지 않습니다. 로그인을 다시 해주세요.");
   }
 
+  const avatarFile = formData.get("avatar") as File;
+  let avatarPath = "";
+
+  if (avatarFile && avatarFile.size > 0) {
+    const buffer = Buffer.from(await avatarFile.arrayBuffer());
+    const filename = avatarFile.name;
+    await fs.writeFile(`./public/${filename}`, buffer);
+    avatarPath = `/${filename}`;
+  }
+
   const data = {
     username: formData.get("username"),
     email: formData.get("email"),
     bio: formData.get("bio"),
     password: formData.get("password") as string | undefined,
     confirm_password: formData.get("confirm_password") as string | undefined,
+    avatar: avatarPath || undefined,
   };
 
   if (!data.password) {
@@ -87,6 +92,7 @@ export async function editProfile(prevState: any, formData: FormData) {
       email: string;
       bio?: string | null;
       password?: string;
+      avatar?: string;
     } = {
       username: result.data.username,
       email: result.data.email,
@@ -96,6 +102,10 @@ export async function editProfile(prevState: any, formData: FormData) {
     if (result.data.password) {
       const hashedPassword = await bcrypt.hash(result.data.password, 12);
       updatedData.password = hashedPassword;
+    }
+
+    if (avatarPath) {
+      updatedData.avatar = avatarPath;
     }
 
     const updatedUser = await db.user.update({
