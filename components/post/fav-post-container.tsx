@@ -17,7 +17,7 @@ export type Post = {
   };
 };
 
-export default function SearchedPostContainer({
+export default function FavPostContainer({
   posts,
   loading,
 }: {
@@ -48,7 +48,7 @@ export default function SearchedPostContainer({
               ))}
             </div>
           ) : (
-            <div className="loading-text">검색어를 입력하세요.</div>
+            <div className="loading-text">좋아요를 누른 포스트가 없습니다.</div>
           )}
         </div>
       )}

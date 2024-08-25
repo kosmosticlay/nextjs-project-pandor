@@ -7,7 +7,7 @@ export default async function Home() {
   //console.log(initialPosts);
   return (
     <div className="">
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<div className="loading-text">Loading...</div>}>
         <PostContainer initialPosts={initialPosts} />
       </Suspense>
     </div>

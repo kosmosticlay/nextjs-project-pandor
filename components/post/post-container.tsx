@@ -37,8 +37,8 @@ export default function PostContainer({
   }, [page]);
 
   return (
-    <div className="min-h-screen flex flex-col items-center bg-blue-400">
-      <div className="w-full md:grid md:grid-cols-2 gap-2 lg:grid-cols-3">
+    <div className="min-h-screen flex flex-col items-center text-black">
+      <div className="w-[500px] lg:w-full mt-5 px-5 grid lg:grid-cols-2 gap-3 xl:grid-cols-3">
         {posts.map((post) => (
           <Link key={post.id} href={`/posts/${post.id}`}>
             <PostItem
@@ -56,14 +56,16 @@ export default function PostContainer({
       </div>
       {hasMorePosts ? (
         <button
-          className="w-36 h-12 rounded-md bg-red-200 mt-5 mb-28"
+          className="w-36 h-12 rounded-md bg-rose-400 mt-5 mb-28 font-bold"
           onClick={handleNextPosts}
           disabled={isPending}
         >
-          {isPending ? "Loading..." : "Next"}
+          {isPending ? "로딩중.." : "더보기"}
         </button>
       ) : (
-        <div className="mt-5 mb-28 text-lg font-bold">No more Posts</div>
+        <div className="mt-5 mb-28 text-lg font-bold text-rose-400">
+          No more Posts
+        </div>
       )}
     </div>
   );

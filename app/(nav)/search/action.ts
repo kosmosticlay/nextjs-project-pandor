@@ -18,6 +18,13 @@ export async function searchPosts(formData: FormData) {
         where: {
           OR: [
             {
+              user: {
+                username: {
+                  contains: data.keyword,
+                },
+              },
+            },
+            {
               title: {
                 contains: data.keyword,
               },

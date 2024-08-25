@@ -18,9 +18,9 @@ export default function FormInput({
   classname,
 }: FormInputProps) {
   return (
-    <div className={`w-full flex flex-col gap-1 ${classname}`}>
+    <div className={`w-[500px] lg:w-full flex flex-col gap-1 ${classname}`}>
       <input
-        className="p-2 text-black rounded-sm"
+        className="p-2 text-black rounded-sm bg-rose-100 outline-rose-400 border-none"
         name={name}
         required={required}
         aria-label={placeholder}

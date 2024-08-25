@@ -16,6 +16,11 @@
   .primary-btn {
     @apply flex-center w-full p-2 rounded-sm bg-neutral-400 font-semibold active:button-animation;
   }
+
+  /* 로딩 텍스트 */
+  .loading-text {
+    @apply mt-5 w-full font-semibold text-rose-400 text-center py-4;
+  }
 }
 
 @layer utilities {

@@ -14,7 +14,7 @@ export default async function NavLayout({
   }
 
   return (
-    <div className="min-w-[600px]">
+    <div className="min-w-[600px] font-notoSansKR">
       <Header username={user.username} />
       {children}
       <Nav username={user.username} />

@@ -1,8 +1,21 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Noto_Sans_KR } from "next/font/google";
 import "./globals.css";
 
+const notoSansKR = Noto_Sans_KR({
+  subsets: ["latin"],
+  weight: ["200", "300", "400", "500", "700", "900"],
+  style: ["normal"],
+  variable: "--notoSansKR" /* tailwind.config.ts에서 변수 설정 */,
+});
 const inter = Inter({ subsets: ["latin"] });
+
+/* 로컬 폰트 사용 방법
+const metallica = localFont({
+  src: "./metallica.ttf",
+  variable: "--metallica-text",
+});
+*/
 
 export const metadata: Metadata = {
   title: "Painter Next Door",
@@ -16,7 +29,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} bg-neutral-800 text-white`}>
+      <body className={`${notoSansKR.variable} bg-stone-800 text-white`}>
         {children}
       </body>
     </html>
