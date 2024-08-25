@@ -3,6 +3,7 @@ import {
   ChatBubbleLeftRightIcon,
   HeartIcon,
 } from "@heroicons/react/24/outline";
+import Image from "next/image";
 
 interface PostItemProps {
   id: number;
@@ -35,8 +36,8 @@ export default function PostItem({
     <div className="flex-shrink-0 active:button-animation p-1 bg-stone-800 rounded-md border-2 border-transparent hover:border-rose-400 box-border transition-all duration-100">
       <div className="rounded-md p-2  bg-rose-50 flex h-[180px]">
         <div className="w-[180px] h-full mr-2 bg-black rounded-md ">
-          <img
-            src={photo}
+          <Image
+            src={photo!}
             alt={title}
             className="object-cover w-full h-full rounded-md"
           />

@@ -18,13 +18,14 @@ export default function EditProfileForm({
 }: {
   profileUser: ProfileUserProps;
 }) {
+  // React Hooks를 조건문 밖으로 이동시킴
+  const [state, dispatch] = useFormState(editProfile, null);
+  const [isPasswordEnabled, setIsPasswordEnabled] = useState(false);
+  const [preview, setPreview] = useState(profileUser?.avatar || "");
+
   if (!profileUser) {
     return notFound();
   }
-
-  const [state, dispatch] = useFormState(editProfile, null);
-  const [isPasswordEnabled, setIsPasswordEnabled] = useState(false);
-  const [preview, setPreview] = useState(profileUser.avatar || "");
 
   const togglePasswordFields = () => {
     setIsPasswordEnabled(!isPasswordEnabled);
