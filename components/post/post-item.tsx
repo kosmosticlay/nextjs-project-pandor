@@ -16,7 +16,7 @@ interface PostItemProps {
   };
   comments: number;
   likes: number;
-  photo: string | undefined;
+  photo?: string;
 }
 
 export default function PostItem({
